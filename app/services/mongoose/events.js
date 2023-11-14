@@ -10,7 +10,7 @@ const { NotFoundError, BadRequestError } = require("../../errors");
 const getAllEvents = async (req) => {
   const { keyword, category, talent, status } = req.query;
 
-  let condition = { organizer:req.user.organizer };
+  let condition = { organizer: req.user.organizer };
 
   if (keyword) {
     condition = { ...condition, title: { $regex: keyword, $options: "i" } };
@@ -24,13 +24,14 @@ const getAllEvents = async (req) => {
     condition = { ...condition, talent: talent };
   }
 
-  if (!['Draft', 'Published'].includes(status)) {
+  if (["Draft", "Published"].includes(status)) {
     condition = {
       ...condition,
       statusEvent: status,
-    }
+    };
   }
 
+  console.log(condition)
   const result = await Events.find(condition)
     .populate({
       path: "image",
@@ -99,7 +100,10 @@ const createEvents = async (req) => {
 const getOneEvents = async (req) => {
   const { id } = req.params;
 
-  const result = await Events.findOne({ _id: id, organizer: req.user.organizer, })
+  const result = await Events.findOne({
+    _id: id,
+    organizer: req.user.organizer,
+  })
     .populate({ path: "image", select: "_id name" })
     .populate({
       path: "category",
@@ -195,8 +199,8 @@ const changeStatusEvents = async (req) => {
   const { id } = req.params;
   const { statusEvent } = req.body;
 
-  if (!['Draft', 'Published'].includes(statusEvent)) {
-    throw new BadRequestError('Status harus Draft atau Published');
+  if (!["Draft", "Published"].includes(statusEvent)) {
+    throw new BadRequestError("Status harus Draft atau Published");
   }
 
   // cari event berdasarkan field id
