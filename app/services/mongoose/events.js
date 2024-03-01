@@ -68,6 +68,8 @@ const createEvents = async (req) => {
     talent,
   } = req.body;
 
+  console.log(tickets);
+
   // cari image, category, talent dengan field id
   await chekingImage(image);
   await checkingCategories(category);

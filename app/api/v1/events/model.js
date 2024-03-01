@@ -52,7 +52,7 @@ const EventSchema = new mongoose.Schema(
     statusEvent: {
       type: String,
       enum: ["Draft", "Published"],
-      default: "open",
+      default: "Draft",
     },
     tickets: {
       type: [ticketCategoriesSchema],

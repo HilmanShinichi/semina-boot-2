@@ -49,7 +49,10 @@ const createTalents = async (req) => {
 const getOneTalents = async (req) => {
   const { id } = req.params;
 
-  const result = await Talents.findOne({ _id: id, organizer: req.user.organizer, })
+  const result = await Talents.findOne({
+    _id: id,
+    organizer: req.user.organizer,
+  })
     .populate({
       path: "image",
       select: "_id name",
@@ -79,7 +82,7 @@ const updateTalents = async (req) => {
 
   const result = await Talents.findOneAndUpdate(
     { _id: id },
-    { name, role, image, organizer: req.user.organizer, },
+    { name, role, image, organizer: req.user.organizer },
     { new: true, runValidators: true }
   );
 
